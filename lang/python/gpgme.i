@@ -657,6 +657,14 @@ _gpg_unwrap_gpgme_ctx_t(PyObject *wrapped)
    the Python world, so let's be careful.  */
 %include "helpers.h"
 
+%feature("python:slot", "tp_repr", functype="reprfunc") _gpgme_user_id::__repr__;
+
+%extend _gpgme_user_id {
+    PyObject* __repr__ () {
+        return PyUnicode_FromFormat("UID(\"%s\" revoked=%d invalid=%d validity=%d)",
+                    $self->uid,
+                    $self->revoked, $self->invalid, $self->validity);
+    }
 
 %define genericrepr(cls)
 %pythoncode %{
