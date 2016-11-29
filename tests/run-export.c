@@ -65,7 +65,7 @@ main (int argc, char **argv)
   int keyidx = 0;
   gpgme_data_t out;
   gpgme_protocol_t protocol = GPGME_PROTOCOL_OpenPGP;
-  gpgme_export_mode_t mode = 0;
+  gpgme_export_mode_t mode = GPGME_EXPORT_MODE_NORMAL;
 
   if (argc)
     { argc--; argv++; }
