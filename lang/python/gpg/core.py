@@ -483,6 +483,50 @@ class Context(GpgmeWrapper):
             plainbytes = data.read()
         return plainbytes, result
 
+    def import_(self, bytes):
+        """Import data
+
+        Imports given bytes into the Context.
+
+        Returns:
+        result -- information about the imported data
+
+        Raises:
+        GPGMEError	-- as signaled by the underlying library
+
+        """
+        self.op_import(bytes)
+        import_result = self.op_import_result()
+        return import_result
+
+    # Hrm. A constants.EXPORT_MODE_NORMAL does not seem to exist
+    def export(self, pattern, mode=0, sink=None):
+        """Export data
+
+        Exports key for the given pattern under the given mode.
+
+        Keyword arguments:
+        mode		-- export mode. See constants.EXPORT_MODE.
+                       (default: 0 which should be "normal")
+        sink		-- write result to sink instead of returning it
+
+        Returns:
+        exported_data -- the bytes of your key(s) of your desire
+
+        Raises:
+        GPGMEError	-- as signaled by the underlying library
+
+        """
+        data = sink if sink else Data()
+        self.op_export(pattern, mode, data)
+        if data and not sink:
+            data.seek(0, os.SEEK_SET)
+            exported_bytes = data.read()
+        else:
+            exported_bytes = None
+        return exported_bytes
+
+
     def keylist(self, pattern=None, secret=False,
                 mode=constants.keylist.mode.LOCAL):
         """List keys

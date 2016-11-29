@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2016 Tobias Mueller <muelli@cryptobitch.de>
+# Copyright (C) 2016 g10 Code GmbH
 #
 # This file is part of GPGME.
 #
@@ -20,32 +20,21 @@
 from __future__ import absolute_import, print_function, unicode_literals
 del absolute_import, print_function, unicode_literals
 
-import os
-
 import gpg
+import support
 
+support.init_gpgme(gpg.constants.protocol.OpenPGP)
 c = gpg.Context()
-# We just want to get any existing key
-fpr = next(c.keylist()).fpr
+c.set_armor(True)
 
-# We test the export() function for a pattern
-bytes = c.export(fpr)
-assert bytes
-
-# The export function also takes a mode argument
-minimal = c.export(fpr, mode=gpg.constants.EXPORT_MODE_MINIMAL)
-assert len(minimal) < len(bytes)
-
-# We can also provide a sink of our liking
 sink = gpg.Data()
-c.export(fpr, sink=sink)
-sink.seek(0, os.SEEK_SET)
-data = sink.read()
-assert data
+c.op_export_ext(['Alpha', 'Bob'], 0, sink)
+support.print_data(sink)
 
-try:
-    nonexisting_mode = 9999
-    c.export(fpr, mode=nonexisting_mode)
-    assert False, "Export should raise!"
-except gpg.errors.GPGMEError as e:
-    pass
+# Again. Now using a key array.
+keys = []
+keys.append(c.get_key("0x68697734", False)) # Alpha
+keys.append(c.get_key("0xA9E3B0B2", False)) # Bob
+sink = gpg.Data()
+c.op_export_keys(keys, 0, sink)
+support.print_data(sink)
