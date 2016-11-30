@@ -10,4 +10,13 @@ Makefile.in
 Makefile
 stamp-h1
 *.o
+*.la
+*.lai
 *.lo
+*.moc
+*.so*
+*.Po
+*.Plo
+*.pyc
+*.pyo
+/lang/python/build/
