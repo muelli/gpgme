@@ -32,6 +32,7 @@ TESTS_ENVIRONMENT = GNUPGHOME=$(abs_builddir) \
 py_tests = t-wrapper.py \
 	t-callbacks.py \
 	t-data.py \
+	t-genkey.py \
 	t-encrypt.py \
 	t-encrypt-sym.py \
 	t-encrypt-sign.py \

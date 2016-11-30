@@ -562,6 +562,12 @@ gpgme_error_t gpgme_op_keylist_start (gpgme_ctx_t ctx,
    It defaults to SEEK_SET. Let's do that for Data objects, too */
 off_t gpgme_data_seek (gpgme_data_t dh, off_t offset, int whence=SEEK_SET);
 
+
+/* We default the pubkey and seckey parameter to NULL
+   to make it more intuitive to call this function */
+gpgme_error_t gpgme_op_genkey (gpgme_ctx_t ctx, const char *parms,
+                   gpgme_data_t pubkey=NULL, gpgme_data_t seckey=NULL);
+
 /* Include the unmodified <gpgme.h> for cc, and the cleaned-up local
    version for SWIG.  We do, however, want to hide certain fields on
    some structs, which we provide prior to including the version for
