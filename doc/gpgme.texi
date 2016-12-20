@@ -4109,6 +4109,12 @@ may be or-ed together.
 
 @table @code
 
+@item GPGME_EXPORT_MODE_NORMAL
+This flag does not set any bits, i.e. is 0, which causes no
+special flags to be used for exporting a key.
+Consequently, this flag loses has no meaning if or-ed together with
+other flags.
+
 @item GPGME_EXPORT_MODE_EXTERN
 If this bit is set, the output is send directly to the default
 keyserver. This is currently only allowed for OpenPGP keys.  It is good
