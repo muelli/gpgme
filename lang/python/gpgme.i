@@ -676,6 +676,7 @@ _gpg_unwrap_gpgme_ctx_t(PyObject *wrapped)
                     $self->uid,
                     $self->revoked, $self->invalid, $self->validity);
     }
+}
 
 %define genericrepr(cls)
 %pythoncode %{
@@ -709,31 +710,4 @@ _gpg_unwrap_gpgme_ctx_t(PyObject *wrapped)
 
 %extend _gpgme_tofu_info {
   genericrepr(TofuInfo)
-};
-
-
-%define genericrepr(cls)
-%pythoncode %{
-    def __repr__(self):
-        names = [name for name in dir(self)
-            if not name.startswith("_") and name != "this"]
-        props = ", ".join(("{}={!r}".format(name, getattr(self, name))
-            for name in names)
-        )
-        return "cls({})".format(props)
-%}
-
-%enddef
-
-%extend _gpgme_key {
-  genericrepr(Key)
-};
-
-
-%extend _gpgme_subkey {
-  genericrepr(SubKey)
-};
-
-%extend _gpgme_key_sig {
-  genericrepr(KeySig)
 };
